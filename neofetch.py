@@ -16,9 +16,6 @@ print(req["dayOfWeek"] + " " + req["time"] + " " + req["date"])
 
 print('')
 
-#Weather
+#Weather - sign up for free api plan on weatherapi.com
 dict = json.loads(requests.get('http://api.weatherapi.com/v1/current.json?key=de975d3393fa4dd19ad211908212308&q=Houston&aqi=no').content)
-print("Weather for " + dict["location"]["name"] + ", " + dict["location"]["region"])
-
-if dict["current"]["condition"]["code"] in os.listdir("~/.config/weather_icons"):
-    print()
+print("Weather for " + dict["location"]["name"] + ", " + dict["location"]["region"] + ": " + dict["current"]["condition"]["text"])
