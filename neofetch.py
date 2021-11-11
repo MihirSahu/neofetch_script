@@ -3,13 +3,28 @@
 import os
 import requests
 import json
+import random
 
-#Quotes
-dict = json.loads(requests.get('https://api.quotable.io/random').content)
-print(dict["content"])
+# If internet connection present, send request to quotable to get quote. After getting quote and printing it out, save it to a file
+try:
+    dict = json.loads(requests.get('https://api.quotable.io/random').content)
+    print(dict["content"])
 
-print('')
+    print('')
 
+    with open("/home/theonlyonzz/.config/_scripts/quotes.txt", "a") as file:
+        file.write(dict["content"] + "\n")
+
+# If no internet, select a random quote from saved file and print it out
+except:
+    numLines = sum(1 for quote in open("/home/theonlyonzz/.config/_scripts/quotes.txt"))
+    randomNum = random.randrange(0, numLines)
+    with open("/home/theonlyonzz/.config/_scripts/quotes.txt", 'r') as file:
+        lines = file.readlines()
+    print(lines[randomNum])
+    print('')
+
+"""
 #Time
 req = requests.get('https://timeapi.io/api/Time/current/zone?timeZone=US/Central').json()
 print(req["dayOfWeek"] + " " + req["time"] + " " + req["date"])
@@ -21,3 +36,4 @@ dict = json.loads(requests.get('http://api.weatherapi.com/v1/current.json?key=de
 print("Weather for " + dict["location"]["name"] + ", " + dict["location"]["region"] + ": " + dict["current"]["condition"]["text"])
 
 print('')
+"""
